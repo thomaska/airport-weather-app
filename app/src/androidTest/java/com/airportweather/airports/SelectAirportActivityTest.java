@@ -9,6 +9,14 @@ import com.airportweather.R;
 import com.airportweather.ViewWeatherActivity;
 import com.airportweather.app.AirportWeatherApp;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 public class SelectAirportActivityTest extends ActivityInstrumentationTestCase2<SelectAirportActivity> {
 
     private SelectAirportActivity activity;
@@ -55,5 +63,10 @@ public class SelectAirportActivityTest extends ActivityInstrumentationTestCase2<
         final int numberOfElementsInList = listView.getAdapter().getCount();
         final int expected = AirportWeatherApp.getAirportNamesToICAO().size();
         assertEquals(expected, numberOfElementsInList);
+    }
+
+    public void testSearchViewFiltersList() throws Exception {
+        onView(withId(R.id.sv_search_airport)).perform(click(), typeText("Thessaloniki"));
+        onView(withText("Makedonia Thessaloniki Greece SKG")).check(matches(isDisplayed()));
     }
 }
