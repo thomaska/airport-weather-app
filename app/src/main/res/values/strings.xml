@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Airport Weather</string>
-
+    <string name="test">Test</string>
     <string name="action_settings">Settings</string>
 </resources>
