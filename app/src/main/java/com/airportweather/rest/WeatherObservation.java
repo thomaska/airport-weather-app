@@ -167,4 +167,27 @@ public class WeatherObservation {
         result = 31 * result + (hectoPascAltimeter != null ? hectoPascAltimeter.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "WeatherObservation{" +
+                "elevation=" + elevation +
+                ", lng=" + lng +
+                ", lat=" + lat +
+                ", observation='" + observation + '\'' +
+                ", ICAO='" + ICAO + '\'' +
+                ", clouds='" + clouds + '\'' +
+                ", dewPoint='" + dewPoint + '\'' +
+                ", cloudsCode='" + cloudsCode + '\'' +
+                ", datetime='" + datetime + '\'' +
+                ", countryCode='" + countryCode + '\'' +
+                ", temperature='" + temperature + '\'' +
+                ", humidity=" + humidity +
+                ", stationName='" + stationName + '\'' +
+                ", weatherCondition='" + weatherCondition + '\'' +
+                ", windDirection=" + windDirection +
+                ", windSpeed='" + windSpeed + '\'' +
+                ", hectoPascAltimeter=" + hectoPascAltimeter +
+                '}';
+    }
 }

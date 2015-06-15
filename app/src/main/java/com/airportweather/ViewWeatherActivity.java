@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.airportweather.airports.SelectAirportActivity;
+
 
 public class ViewWeatherActivity extends AppCompatActivity {
 
@@ -12,6 +14,8 @@ public class ViewWeatherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_weather);
+        final String icao = getIntent().getStringExtra(SelectAirportActivity.ICAO_EXTRA);
+
     }
 
     @Override

@@ -14,7 +14,6 @@ import java.util.Map;
 
 public class AirportWeatherApp extends Application {
 
-    private static final String TAG = AirportWeatherApp.class.getName();
     private static final String ENTRY = "entry";
     private static final String KEY = "key";
     private static Context context;
@@ -25,8 +24,6 @@ public class AirportWeatherApp extends Application {
         super.onCreate();
         context = getApplicationContext();
         airportNamesToICAO = getHashMapResource(context, R.xml.airport_names_to_icao_map);
-        int i = 0;
-        i++;
     }
 
     public static Map<String, String> getAirportNamesToICAO() {

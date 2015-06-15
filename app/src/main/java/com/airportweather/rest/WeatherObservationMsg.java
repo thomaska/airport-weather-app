@@ -7,6 +7,10 @@ public class WeatherObservationMsg {
         this.weatherObservation = weatherObservation;
     }
 
+    public WeatherObservation getWeatherObservation() {
+        return weatherObservation;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
