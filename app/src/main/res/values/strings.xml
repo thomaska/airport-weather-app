@@ -4,4 +4,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_select_airport">Select Airport</string>
     <string name="search_by_airport_name_andor_location">Search by airport name and/or location</string>
+    <string name="change_airport">Select</string>
+    <string name="retrieving_weather_data">Retrieving weather data..</string>
 </resources>

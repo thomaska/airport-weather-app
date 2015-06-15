@@ -72,6 +72,7 @@ public class SelectAirportActivity extends AppCompatActivity implements SearchVi
                 final Intent intent = new Intent(SelectAirportActivity.this, ViewWeatherActivity.class);
                 intent.putExtra(ICAO_EXTRA, ICAO);
                 startActivity(intent);
+                finish();
             }
         });
     }
