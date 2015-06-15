@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airportweather.airports.SelectAirportActivity;
 import com.airportweather.otto.BusProvider;
 import com.airportweather.otto.events.WeatherObservationEvent;
 import com.airportweather.rest.GeoNameService;
+import com.airportweather.rest.WeatherObservation;
 import com.squareup.otto.Subscribe;
 
 
@@ -19,12 +22,29 @@ public class ViewWeatherActivity extends AppCompatActivity {
     private static final String TAG = ViewWeatherActivity.class.getName();
     private ProgressDialog progressDialog;
     private String icao;
+    private TextView aiportName;
+    private TextView clouds;
+    private TextView weatherDate;
+    private TextView humidity;
+    private TextView windspeed;
+    private TextView temperature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_weather);
         icao = getIntent().getStringExtra(SelectAirportActivity.ICAO_EXTRA);
+        initViews();
+    }
+
+    private void initViews() {
+        aiportName = (TextView) findViewById(R.id.tv_airportname);
+        temperature = (TextView) findViewById(R.id.tv_temperature);
+        clouds = (TextView) findViewById(R.id.tv_clouds);
+        windspeed = (TextView) findViewById(R.id.tv_windspeed);
+        humidity = (TextView) findViewById(R.id.tv_humidity);
+        weatherDate = (TextView) findViewById(R.id.tv_date);
+
     }
 
     private void performGeonameServiceCall() {
@@ -79,6 +99,23 @@ public class ViewWeatherActivity extends AppCompatActivity {
             progressDialog.dismiss();
         }
         if (event.succeeded()) {
+            final WeatherObservation observation = event.getWeatherObservation();
+            setValueIfNotEmpty(clouds, observation.getClouds());
+            setValueIfNotEmpty(weatherDate, observation.getDatetime());
+            setValueIfNotEmpty(humidity, observation.getHumidity() + "");
+            setValueIfNotEmpty(temperature, observation.getTemperature());
+            setValueIfNotEmpty(windspeed, observation.getWindSpeed());
+            setValueIfNotEmpty(aiportName, observation.getStationName());
+        } else {
+            Toast.makeText(ViewWeatherActivity.this, getString(R.string.something_went_wrong) + event.getError(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void setValueIfNotEmpty(TextView textView, String value) {
+        if (value != null) {
+            textView.setText(value);
+        } else {
+            textView.setText("n/a");
         }
     }
 }

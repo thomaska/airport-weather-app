@@ -3,7 +3,12 @@
     <string name="test">Test</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_select_airport">Select Airport</string>
-    <string name="search_by_airport_name_andor_location">Search by airport name and/or location</string>
+    <string name="search_by_airport_name_andor_location">Search name/location/code</string>
     <string name="change_airport">Select</string>
     <string name="retrieving_weather_data">Retrieving weather data..</string>
+    <string name="celcius">&#160;°C</string>
+    <string name="something_went_wrong">"Something went wrong:&#160;"</string>
+    <string name="wind_speed">Wind speed:</string>
+    <string name="humidity">Humidity:</string>
+    <string name="last_update">Last Update:</string>
 </resources>
