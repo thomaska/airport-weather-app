@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.airportweather.R;
 import com.airportweather.ViewWeatherActivity;
 import com.airportweather.app.AirportWeatherApp;
+import com.airportweather.prefs.AppPreferences;
 
 import java.util.Set;
 
@@ -25,6 +26,13 @@ public class SelectAirportActivity extends AppCompatActivity implements SearchVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        boolean activityRunsForFirstTime = getIntent().getBooleanExtra(ViewWeatherActivity.FIRST_TIME, true);
+        if (activityRunsForFirstTime) {
+            final String lastIcao = AppPreferences.getLastIcao();
+            if (!lastIcao.isEmpty()) {
+                startViewWeatherActivity(lastIcao);
+            }
+        }
         setContentView(R.layout.activity_select_airport);
         setupList();
     }
@@ -69,12 +77,16 @@ public class SelectAirportActivity extends AppCompatActivity implements SearchVi
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String key = adapter.getItem(i);
                 final String ICAO = AirportWeatherApp.getAirportNamesToICAO().get(key);
-                final Intent intent = new Intent(SelectAirportActivity.this, ViewWeatherActivity.class);
-                intent.putExtra(ICAO_EXTRA, ICAO);
-                startActivity(intent);
-                finish();
+                startViewWeatherActivity(ICAO);
             }
         });
+    }
+
+    private void startViewWeatherActivity(String ICAO) {
+        final Intent intent = new Intent(SelectAirportActivity.this, ViewWeatherActivity.class);
+        intent.putExtra(ICAO_EXTRA, ICAO);
+        startActivity(intent);
+        finish();
     }
 
     @Override

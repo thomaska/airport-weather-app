@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airportweather.airports.SelectAirportActivity;
 import com.airportweather.otto.BusProvider;
 import com.airportweather.otto.events.WeatherObservationEvent;
+import com.airportweather.prefs.AppPreferences;
 import com.airportweather.rest.GeoNameService;
 import com.airportweather.rest.WeatherObservation;
 import com.squareup.otto.Subscribe;
@@ -19,7 +22,7 @@ import com.squareup.otto.Subscribe;
 
 public class ViewWeatherActivity extends AppCompatActivity {
 
-    private static final String TAG = ViewWeatherActivity.class.getName();
+    public static final String FIRST_TIME = "FIRST_TIME";
     private ProgressDialog progressDialog;
     private String icao;
     private TextView aiportName;
@@ -28,6 +31,7 @@ public class ViewWeatherActivity extends AppCompatActivity {
     private TextView humidity;
     private TextView windspeed;
     private TextView temperature;
+    private RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,7 @@ public class ViewWeatherActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        relativeLayout = (RelativeLayout) findViewById(R.id.rl_weather);
         aiportName = (TextView) findViewById(R.id.tv_airportname);
         temperature = (TextView) findViewById(R.id.tv_temperature);
         clouds = (TextView) findViewById(R.id.tv_clouds);
@@ -82,9 +87,7 @@ public class ViewWeatherActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_change_airport) {
-            Intent startSelectAirportActivity = new Intent(ViewWeatherActivity.this, SelectAirportActivity.class);
-            startActivity(startSelectAirportActivity);
-            finish();
+            startSelectAirportActivity();
             return true;
         } else if (id == R.id.action_refresh) {
             performGeonameServiceCall();
@@ -93,12 +96,21 @@ public class ViewWeatherActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void startSelectAirportActivity() {
+        Intent startSelectAirportActivity = new Intent(ViewWeatherActivity.this, SelectAirportActivity.class);
+        startSelectAirportActivity.putExtra(FIRST_TIME, false);
+        startActivity(startSelectAirportActivity);
+        finish();
+    }
+
     @Subscribe
     public void onGeonameResponseEvent(WeatherObservationEvent event) {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
         if (event.succeeded()) {
+            relativeLayout.setVisibility(View.VISIBLE);
+            AppPreferences.setLastIcao(icao);
             final WeatherObservation observation = event.getWeatherObservation();
             setValueIfNotEmpty(clouds, observation.getClouds());
             setValueIfNotEmpty(weatherDate, observation.getDatetime());
@@ -107,6 +119,7 @@ public class ViewWeatherActivity extends AppCompatActivity {
             setValueIfNotEmpty(windspeed, observation.getWindSpeed());
             setValueIfNotEmpty(aiportName, observation.getStationName());
         } else {
+            relativeLayout.setVisibility(View.GONE);
             Toast.makeText(ViewWeatherActivity.this, getString(R.string.something_went_wrong) + event.getError(), Toast.LENGTH_LONG).show();
         }
     }

@@ -7,7 +7,7 @@
     <string name="change_airport">Select</string>
     <string name="retrieving_weather_data">Retrieving weather data..</string>
     <string name="celcius">&#160;°C</string>
-    <string name="something_went_wrong">"Something went wrong:&#160;"</string>
+    <string name="something_went_wrong">"Something went wrong.&#160;"</string>
     <string name="wind_speed">Wind speed:</string>
     <string name="humidity">Humidity:</string>
     <string name="last_update">Last Update:</string>
